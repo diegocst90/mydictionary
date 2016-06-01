@@ -36,6 +36,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'bower-rails'
+gem 'angular-rails-templates'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -45,6 +46,8 @@ group :development, :test do
   gem "capybara"
   gem "database_cleaner"
   gem "selenium-webdriver"
+  gem "teaspoon-jasmine"
+  gem "phantomjs"
 end
 
 group :development do

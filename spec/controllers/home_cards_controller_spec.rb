@@ -1,12 +1,59 @@
 require 'rails_helper'
+require 'spec_helper.rb'
 
-RSpec.describe HomeCardsController, type: :controller do
+#Search Feature
+feature "Looking up recipes", js: true do
+  scenario "finding cards" do
+    visit '/'
+    fill_in "keywords", with: "baked"
+    click_on "Search"
 
-  describe "GET #index" do
-    it "returns http success" do
-      get :index
-      expect(response).to have_http_status(:success)
-    end
+    expect(page).to have_content("Baked Potato")
+    expect(page).to have_content("Baked Brussel Sprouts")
+    expect(page).to_not have_content("Garlic Mashed Potatoes")
   end
+end
 
+describe HomeCardsController do
+  render_views
+  describe "index" do
+    before do
+      Card.create!(name: 'Baked Potato w/ Cheese')
+      Card.create!(name: 'Garlic Mashed Potatoes')
+      Card.create!(name: 'Potatoes Au Gratin')
+      Card.create!(name: 'Baked Brussel Sprouts')
+
+      xhr :get, :index, format: :json, keywords: keywords
+    end
+
+    subject(:results) { JSON.parse(response.body) }
+
+    def extract_name
+      ->(object) { object["name"] }
+    end
+
+    context "when the search finds results" do
+      let(:keywords) { 'baked' }
+      it 'should 200' do
+        expect(response.status).to eq(200)
+      end
+      it 'should return two results' do
+        expect(results.size).to eq(2)
+      end
+      it "should include 'Baked Potato w/ Cheese'" do
+        expect(results.map(&extract_name)).to include('Baked Potato w/ Cheese')
+      end
+      it "should include 'Baked Brussel Sprouts'" do
+        expect(results.map(&extract_name)).to include('Baked Brussel Sprouts')
+      end
+    end
+
+    context "when the search doesn't find results" do
+      let(:keywords) { 'foo' }
+      it 'should return no results' do
+        expect(results.size).to eq(0)
+      end
+    end
+
+  end
 end

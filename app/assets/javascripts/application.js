@@ -15,7 +15,7 @@
 //= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 //= require turbolinks
 //= require angular/angular
+//= require angular-route/angular-route
+//= require angular-resource/angular-resource
+//= require angular-rails-templates
 //= require_tree .
-
-home_cards = angular.module('home_cards',[
-])
