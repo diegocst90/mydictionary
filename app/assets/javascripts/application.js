@@ -12,5 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-sass-official/assets/javascripts/bootstrap-sprockets
 //= require turbolinks
+//= require angular/angular
 //= require_tree .
+
+home_cards = angular.module('home_cards',[
+])
