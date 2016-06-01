@@ -1,19 +1,6 @@
 require 'rails_helper'
 require 'spec_helper.rb'
 
-#Search Feature
-feature "Looking up recipes", js: true do
-  scenario "finding cards" do
-    visit '/'
-    fill_in "keywords", with: "baked"
-    click_on "Search"
-
-    expect(page).to have_content("Baked Potato")
-    expect(page).to have_content("Baked Brussel Sprouts")
-    expect(page).to_not have_content("Garlic Mashed Potatoes")
-  end
-end
-
 describe HomeCardsController do
   render_views
   describe "index" do
